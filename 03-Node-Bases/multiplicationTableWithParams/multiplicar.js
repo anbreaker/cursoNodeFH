@@ -13,6 +13,8 @@ const crearArchivo = (base) => {
       data += `${base} * ${i} = ${base * i}\n`;
     }
 
+    console.log(data);
+
     fs.writeFile(`tablas/tabla-${base}.txt`, data, (error) => {
       if (error) reject(error);
       else resolve(`tabla-${base}.txt`);

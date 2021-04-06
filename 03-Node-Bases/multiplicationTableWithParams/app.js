@@ -1,11 +1,13 @@
 'use strict';
 const { crearArchivo } = require('./multiplicar');
 
+// Ejecutar este app --base=5
+// node app.js
 console.clear();
 
 // console.log(process.argv);
-const argv = process.argv;
-const parametro = argv[2];
+const [, , argumento3 = 'base=1'] = process.argv;
+const parametro = argumento3;
 const base = parametro.split('=')[1];
 
 console.log(`
@@ -13,8 +15,6 @@ console.log(`
 \tTabla del numero ${base}
 -----------------------------------
 `);
-
-console.log(base);
 
 crearArchivo(base)
   .then((archivo) => console.log(`Archivo creado: ${archivo}`))
