@@ -1,0 +1,16 @@
+{
+  "name": "multiplicarColors",
+  "version": "0.0.0",
+  "description": "Tabla de multiplicar con salida en archivo de texto",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "anbreaker",
+  "license": "ISC",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "yargs": "^16.2.0"
+  }
+}
