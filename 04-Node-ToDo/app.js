@@ -1,7 +1,13 @@
 require('colors');
 
-const { inquirerMenu, pause, readInput } = require('./helpers/inquirer');
 const { saveDB, readDB } = require('./helpers/interactionDataBase');
+const {
+  inquirerMenu,
+  pause,
+  readInput,
+  listadoDeleteTask,
+  confirm,
+} = require('./helpers/inquirer');
 const Tareas = require('./models/tareas');
 
 const main = async () => {
@@ -28,6 +34,18 @@ const main = async () => {
         break;
       case '4':
         tareas.listarPendientesCompletadas(false);
+        break;
+      case '6':
+        // Borrar
+        const id = await listadoDeleteTask(tareas.listadoArray);
+
+        if (id !== '0') {
+          const confirmDelete = await confirm('¿Estas seguro de Eliminar la tarea?');
+
+          if (confirmDelete) tareas.deleteTask(id);
+          console.log('Tarea Eliminada correctamente'.blue);
+        }
+
         break;
     }
 
