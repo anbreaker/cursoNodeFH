@@ -1,16 +1,17 @@
 'use strict';
 const fs = require('fs');
+const colors = require('colors');
 
 const crearArchivo = async (base = 1, listar) => {
   try {
-    console.log('\n==================');
-    console.log('   Tabla del: ', base);
-    console.log('==================');
+    console.log(colors.green('\n==================='));
+    console.log('   Tabla del: ', colors.yellow(base));
+    console.log(colors.green('==================='));
 
     let data = '';
 
     for (let i = 0; i < 10; i++) {
-      data += `${base} * ${i} = ${base * i}\n`;
+      data += `   ${base} ${'x'.blue} ${i} ${'='.blue} ${base * i}\n`;
     }
 
     if (listar) console.log(data);
