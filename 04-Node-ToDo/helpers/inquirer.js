@@ -99,4 +99,33 @@ const confirm = async (message) => {
   return ok;
 };
 
-module.exports = { inquirerMenu, pause, readInput, listadoDeleteTask, confirm };
+const mostrarListadoChecklist = async (tareas = []) => {
+  const choices = tareas.map((tarea, i) => {
+    const idx = `${i + 1}.`.green;
+
+    return {
+      value: tarea.id,
+      name: `${idx} ${tarea.description}`,
+      checked: tarea.completadoEn ? true : false,
+    };
+  });
+
+  const question = {
+    type: 'checkbox',
+    name: 'ids',
+    message: 'Selecciones',
+    choices,
+  };
+
+  const { ids } = await inquirer.prompt(question);
+  return ids;
+};
+
+module.exports = {
+  inquirerMenu,
+  pause,
+  readInput,
+  listadoDeleteTask,
+  confirm,
+  mostrarListadoChecklist,
+};

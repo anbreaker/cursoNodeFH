@@ -28,8 +28,6 @@ class Tareas {
   }
 
   cargarTareasFromArray(tareas = []) {
-    //
-
     tareas.forEach((tarea) => {
       this._listado[tarea.id] = tarea;
     });
@@ -69,13 +67,29 @@ class Tareas {
       if (completadas) {
         if (completadoEn) {
           contador += 1;
-          console.log(`${(contador + '.').green} ${description} :: ${completadoEn}`);
+          console.log(
+            `${(contador + '.').green} ${description} :: ${completadoEn.green}`
+          );
         }
       } else {
         if (!completadoEn) {
           contador += 1;
           console.log(`${(contador + '.').red} ${description} :: ${estado}`);
         }
+      }
+    });
+  }
+
+  toggleCompletadas(ids = []) {
+    ids.forEach((id) => {
+      const tarea = this._listado[id];
+
+      if (!tarea.completadoEn) tarea.completadoEn = new Date().toISOString();
+    });
+
+    this.listadoArray.forEach((tarea) => {
+      if (!ids.includes(tarea.id)) {
+        this._listado[tarea.id].completadoEn = null;
       }
     });
   }
