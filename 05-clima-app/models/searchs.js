@@ -16,6 +16,14 @@ class Searchs {
     };
   }
 
+  get paramsOpenWeatherMap() {
+    return {
+      appid: process.env.OPENWEATHERMAP_API_KEY,
+      units: 'metric',
+      lang: 'es',
+    };
+  }
+
   async city(lugar = '') {
     try {
       // peticion htto
@@ -36,6 +44,30 @@ class Searchs {
       }));
     } catch (error) {
       return [];
+    }
+  }
+
+  async climaLugar(lat, lon) {
+    try {
+      // Instancia axios.create()
+
+      const instanceAxios = axios.create({
+        baseURL: `https://api.openweathermap.org/data/2.5/weather`,
+        params: { ...this.paramsOpenWeatherMap, lat, lon },
+      });
+
+      // response.data
+      const response = await instanceAxios.get();
+      const { weather, main } = response.data;
+
+      return {
+        description: weather[0].description,
+        minT: main.temp_min,
+        maxT: main.temp_max,
+        temp: main.temp,
+      };
+    } catch (error) {
+      console.log(error);
     }
   }
 }
