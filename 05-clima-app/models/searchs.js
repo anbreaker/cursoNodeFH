@@ -27,8 +27,13 @@ class Searchs {
 
       const response = await instance.get();
 
-      console.log(response.data);
-      return [];
+      return response.data.features.map((lugar) => ({
+        id: lugar.id,
+        nombre: lugar.place_name,
+        // Mapbox devuelve Latitud Longitud al reves de google
+        lat: lugar.center[1],
+        lng: lugar.center[0],
+      }));
     } catch (error) {
       return [];
     }
