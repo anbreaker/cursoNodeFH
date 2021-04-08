@@ -1,8 +1,11 @@
+const fs = require('fs');
+
 require('dotenv').config();
 const axios = require('axios').default;
 
 class Searchs {
-  history = ['Badajoz', 'Elvas'];
+  history = [];
+  dbPath = './db/database.json';
 
   constructor() {
     // TODO leer DB si existe
@@ -26,8 +29,7 @@ class Searchs {
 
   async city(lugar = '') {
     try {
-      // peticion htto
-
+      // peticion http
       const instance = axios.create({
         baseURL: `https://api.mapbox.com/geocoding/v5/mapbox.places/${lugar}.json`,
         params: this.paramsMapbox,
@@ -50,7 +52,6 @@ class Searchs {
   async climaLugar(lat, lon) {
     try {
       // Instancia axios.create()
-
       const instanceAxios = axios.create({
         baseURL: `https://api.openweathermap.org/data/2.5/weather`,
         params: { ...this.paramsOpenWeatherMap, lat, lon },
@@ -69,6 +70,25 @@ class Searchs {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  addHistory(lugar = '') {
+    // TODO prevenir duplicados
+
+    if (this.history.includes(lugar.toLocaleLowerCase())) return;
+
+    this.history.unshift(lugar.toLocaleLowerCase());
+
+    // Grabar en DB
+    this.guardarDB();
+  }
+
+  guardarDB() {
+    const payload = {
+      history: this.history,
+    };
+
+    fs.writeFileSync(this.dbPath, JSON.stringify(payload));
   }
 }
 
