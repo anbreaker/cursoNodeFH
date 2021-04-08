@@ -5,10 +5,23 @@ const axios = require('axios').default;
 
 class Searchs {
   history = [];
-  dbPath = './db/database.json';
+  dbFile = './db/database.json';
 
   constructor() {
     // TODO leer DB si existe
+    this.readDB();
+  }
+
+  get capitaliceHistory() {
+    // Capitalizar cada palabra.
+
+    return this.history.map((item) => {
+      let words = item.split(' ');
+
+      words = words.map((word) => word[0].toUpperCase() + word.substring(1));
+
+      return words.join(' ');
+    });
   }
 
   get paramsMapbox() {
@@ -75,20 +88,33 @@ class Searchs {
   addHistory(lugar = '') {
     // TODO prevenir duplicados
 
-    if (this.history.includes(lugar.toLocaleLowerCase())) return;
+    if (this.history.includes(lugar.toLowerCase())) return;
 
-    this.history.unshift(lugar.toLocaleLowerCase());
+    // Mantener en historial solo 5 registros
+    this.history = this.history.splice(0, 4);
+
+    this.history.unshift(lugar.toLowerCase());
 
     // Grabar en DB
-    this.guardarDB();
+    this.saveDB();
   }
 
-  guardarDB() {
+  saveDB() {
     const payload = {
       history: this.history,
     };
 
-    fs.writeFileSync(this.dbPath, JSON.stringify(payload));
+    fs.writeFileSync(this.dbFile, JSON.stringify(payload));
+  }
+
+  readDB() {
+    if (!fs.existsSync(this.dbFile)) return;
+
+    const info = fs.readFileSync(this.dbFile, { encoding: 'utf-8' });
+
+    const data = JSON.parse(info);
+
+    this.history = data.history;
   }
 }
 
