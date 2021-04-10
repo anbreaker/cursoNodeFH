@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "fuser -k 3000/tcp & nodemon app.js",
-    "start": "node app.js"
+    "start": "node app.js",
+    "dev-react": "fuser -k 3000/tcp & nodemon app-react.js",
+    "start-react": "node app-react.js"
   },
   "keywords": [],
   "author": "anbreaker",
