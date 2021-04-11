@@ -1,27 +1,33 @@
 const { response, request } = require('express');
 
+const User = require('../models/user');
+
 // Importacion de libreria para autoimportaciones de VsCode
 // Renombrado de response para utilizar ayuda IDE
 const usersGet = (req = request, res = response) => {
-  const { query, nombre = 'not name', apikey, page, limit = 5 } = req.query;
+  const { query, name = 'not name', apikey, page, limit = 5 } = req.query;
 
   res.json({
     msg: 'get API - controller',
     query,
-    nombre,
+    name,
     apikey,
     page,
     limit,
   });
 };
 
-const usersPost = (req, res = response) => {
-  const { nombre, edad } = req.body;
+const usersPost = async (req, res = response) => {
+  const body = req.body;
+
+  const user = new User(body);
+
+  // Save on DB instance of User with data
+  await user.save();
 
   res.json({
     msg: 'post API - controller',
-    nombre,
-    edad,
+    user,
   });
 };
 

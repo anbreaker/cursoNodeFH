@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 
+const { dbConnection } = require('../database/mongoose.config');
+
 class Server {
   constructor() {
     this.app = express();
@@ -10,12 +12,19 @@ class Server {
     // API users
     this.usersRoutesPath = '/api/users';
 
+    // Connect to Database
+    this.connectDB();
+
     // Middlewares
     this.middlewares();
 
     // Rutas de la Aplicacion
 
     this.routes();
+  }
+
+  async connectDB() {
+    await dbConnection();
   }
 
   middlewares() {
