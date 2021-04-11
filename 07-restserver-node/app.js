@@ -4,5 +4,5 @@ const Server = require('./models/server');
 
 const server = new Server();
 
-// Up Server
+// Up Server and listen
 server.listen();

@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const morgan = require('morgan');
 
 class Server {
   constructor() {
@@ -20,6 +21,15 @@ class Server {
   middlewares() {
     // cors to use Access-Control-Allow-Origin (Browsers)
     this.app.use(cors());
+
+    // Read Express Data
+    this.app.use(express.json());
+
+    // Form sends data, understand it, but not accept images etc...(Method of Express)
+    this.app.use(express.urlencoded({ extended: true }));
+
+    // Https views
+    this.app.use(morgan('dev'));
 
     // Directorio ficheros Estaticos
     this.app.use(express.static('public'));
