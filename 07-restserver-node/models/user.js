@@ -35,4 +35,11 @@ const userSchema = Schema(
   { timestamps: true }
 );
 
+// To send response object without password or __version...
+// Need function to use this!!
+userSchema.methods.toJSON = function () {
+  const { __v, password, ...user } = this.toObject();
+  return user;
+};
+
 module.exports = model('User', userSchema);
