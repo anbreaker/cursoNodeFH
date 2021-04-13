@@ -5,17 +5,13 @@ const User = require('../models/user');
 
 // Importacion de libreria para autoimportaciones de VsCode
 // Renombrado de response para utilizar ayuda IDE
-const usersGet = (req = request, res = response) => {
-  const { query, name = 'not name', apikey, page, limit = 5 } = req.query;
+const usersGet = async (req = request, res = response) => {
+  // TODO Validar entrada de limit y from
+  const { limit = 3, from = 0 } = req.query;
 
-  res.json({
-    msg: 'get API - controller',
-    query,
-    name,
-    apikey,
-    page,
-    limit,
-  });
+  const users = await User.find().limit(Number(limit)).skip(Number(from));
+
+  res.json({ users });
 };
 
 const usersPost = async (req, res = response) => {
@@ -51,10 +47,7 @@ const usersPut = async (req, res = response) => {
 
   const user = await User.findByIdAndUpdate(id, restParams);
 
-  res.json({
-    msg: 'put API - Controller',
-    user,
-  });
+  res.json(user);
 };
 
 const usersPatch = (req, res = response) => {

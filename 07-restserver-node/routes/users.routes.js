@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { validateFields } = require('../middlewares/validateFields');
+const { validateFields, validatePagination } = require('../middlewares/validateFields');
 const { isRoleValid, emailExist, userIdExist } = require('../helpers/dbValidators');
 const {
   usersGet,
@@ -13,7 +13,7 @@ const {
 
 const router = Router();
 
-router.get('/', usersGet);
+router.get('/', [validatePagination], usersGet);
 
 router.post(
   '/',

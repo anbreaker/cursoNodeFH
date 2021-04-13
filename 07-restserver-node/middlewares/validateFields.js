@@ -10,6 +10,17 @@ const validateFields = (req, res, next) => {
   next();
 };
 
+const validatePagination = (req, res, next) => {
+  const { limit = 3, from = 0 } = req.query;
+
+  if (isNaN(Number(limit)) || isNaN(Number(from))) {
+    return res.status(203).json({ error: 'The query type must be a number }' });
+  }
+
+  next();
+};
+
 module.exports = {
   validateFields,
+  validatePagination,
 };
