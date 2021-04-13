@@ -6,12 +6,15 @@ const User = require('../models/user');
 // Importacion de libreria para autoimportaciones de VsCode
 // Renombrado de response para utilizar ayuda IDE
 const usersGet = async (req = request, res = response) => {
-  // TODO Validar entrada de limit y from
   const { limit = 3, from = 0 } = req.query;
+  const query = { state: true };
 
-  const users = await User.find().limit(Number(limit)).skip(Number(from));
+  const [total, users] = await Promise.all([
+    User.countDocuments(query),
+    User.find(query).limit(Number(limit)).skip(Number(from)),
+  ]);
 
-  res.json({ users });
+  res.json({ total, users });
 };
 
 const usersPost = async (req, res = response) => {
@@ -56,9 +59,16 @@ const usersPatch = (req, res = response) => {
   });
 };
 
-const usersDelete = (req, res = response) => {
+const usersDelete = async (req, res = response) => {
+  const { id } = req.params;
+
+  // Borrado total--> const user = await User.findByIdAndDelete(id);
+
+  // Borrado por estado
+  const user = await User.findByIdAndUpdate(id, { state: false });
+
   res.json({
-    msg: 'delete API - Controller',
+    user,
   });
 };
 
