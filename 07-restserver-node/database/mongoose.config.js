@@ -8,6 +8,7 @@ const dbConnection = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
+      useFindAndModify: false,
     });
 
     console.log(`Database ${mongoose.connection.name} is connected.`);
