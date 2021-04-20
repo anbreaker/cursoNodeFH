@@ -1,7 +1,8 @@
 const { response, request } = require('express');
-const bcryptjs = require('bcryptjs');
 
-const User = require('../models/user');
+const encryptPass = require('../helpers/bcryptjs');
+
+const User = require('../models/user.model');
 
 // Importacion de libreria para autoimportaciones de VsCode
 // Renombrado de response para utilizar ayuda IDE
@@ -24,8 +25,7 @@ const usersPost = async (req, res = response) => {
   const user = new User({ name, email, password, role });
 
   // Encriptar pass
-  const salt = bcryptjs.genSaltSync();
-  user.password = bcryptjs.hashSync(password, salt);
+  user.password = encryptPass(password);
 
   // Save on DB instance of User with data
   await user.save();
@@ -42,11 +42,9 @@ const usersPut = async (req, res = response) => {
   const { _id, password, google, email, ...restParams } = req.body;
 
   // TODO validar contra base de datos
-  if (password) {
-    // Encriptar pass
-    const salt = bcryptjs.genSaltSync();
-    restParams.password = bcryptjs.hashSync(password, salt);
-  }
+
+  // Encriptar pass
+  if (password) restParams.password = encryptPass(password);
 
   const user = await User.findByIdAndUpdate(id, restParams);
 
