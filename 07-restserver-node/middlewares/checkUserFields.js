@@ -2,6 +2,7 @@ const { check } = require('express-validator');
 
 const { isRoleValid, emailExist, userIdExist } = require('../helpers/dbValidators');
 const { validateFields, validatePagination } = require('../middlewares/validateFields');
+const { validateJWT } = require('./validateJWT');
 
 const checkGetUser = [validatePagination];
 
@@ -27,6 +28,7 @@ const checkPutUser = [
 ];
 
 const checkDeleteUser = [
+  validateJWT,
   check('id', 'It is not a valid Mongo id').isMongoId(),
   check('id').custom(userIdExist),
   validateFields,

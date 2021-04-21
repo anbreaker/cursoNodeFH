@@ -46,7 +46,9 @@ const usersPut = async (req, res = response) => {
   // Encriptar pass
   if (password) restParams.password = encryptPass(password);
 
-  const user = await User.findByIdAndUpdate(id, restParams);
+  const user = await User.findByIdAndUpdate(id, restParams, {
+    returnOriginal: false,
+  });
 
   res.json(user);
 };
@@ -60,13 +62,19 @@ const usersPatch = (req, res = response) => {
 const usersDelete = async (req, res = response) => {
   const { id } = req.params;
 
-  // Borrado total--> const user = await User.findByIdAndDelete(id);
+  const uid = req.uid;
 
+  // Borrado total--> const user = await User.findByIdAndDelete(id);
   // Borrado por estado
-  const user = await User.findByIdAndUpdate(id, { state: false });
+  const user = await User.findByIdAndUpdate(
+    id,
+    { state: false },
+    { returnOriginal: false } // Para ver el dato actual en postman
+  );
 
   res.json({
     user,
+    uid,
   });
 };
 
