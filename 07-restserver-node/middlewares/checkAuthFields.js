@@ -10,7 +10,6 @@ const checkPostAuth = [
     'Password is mandatory and should be at least 6 characters'
   ).isLength({ min: 6 }),
   check('email', 'The email is mandatory').isEmail(),
-  check('email').custom(emailExist),
   validateFields,
 ];
 
