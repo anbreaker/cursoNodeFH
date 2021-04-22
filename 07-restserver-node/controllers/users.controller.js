@@ -62,9 +62,8 @@ const usersPatch = (req, res = response) => {
 const usersDelete = async (req, res = response) => {
   const { id } = req.params;
 
-  const uid = req.uid;
-
   // Borrado total--> const user = await User.findByIdAndDelete(id);
+
   // Borrado por estado
   const user = await User.findByIdAndUpdate(
     id,
@@ -72,10 +71,7 @@ const usersDelete = async (req, res = response) => {
     { returnOriginal: false } // Para ver el dato actual en postman
   );
 
-  res.json({
-    user,
-    uid,
-  });
+  res.json({ user });
 };
 
 module.exports = { usersGet, usersPost, usersPut, usersPatch, usersDelete };
