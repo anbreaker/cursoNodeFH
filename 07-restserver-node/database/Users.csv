@@ -1,4 +1,4 @@
-name,email,password,img,role,state,google,
+name,email,password,img,role,status,google,
   user01,user01@test.com,user01,url,USER_ROLE,true,false
   user02,user02@test.com,user02,url,USER_ROLE,true,false
   user03,user03@test.com,user03,url,USER_ROLE,true,false

@@ -8,7 +8,7 @@ const User = require('../models/user.model');
 // Renombrado de response para utilizar ayuda IDE
 const usersGet = async (req = request, res = response) => {
   const { limit = 3, from = 0 } = req.query;
-  const query = { state: true };
+  const query = { status: true };
 
   const [total, users] = await Promise.all([
     User.countDocuments(query),
@@ -67,7 +67,7 @@ const usersDelete = async (req, res = response) => {
   // Borrado por estado
   const user = await User.findByIdAndUpdate(
     id,
-    { state: false },
+    { status: false },
     { returnOriginal: false } // Para ver el dato actual en postman
   );
 

@@ -13,7 +13,7 @@ const loginController = async (req = request, res = response) => {
     if (!user) return res.status(400).json({ mgs: 'Incorrect Username or Password' });
 
     // Active User?
-    if (!user.state)
+    if (!user.status)
       return res
         .status(400)
         .json({ msg: 'Incorrect Username or Password - status: false' });
