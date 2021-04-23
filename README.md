@@ -1,1 +1,7 @@
-# cursoNodeFH
+# WebServer + RestServer
+
+```
+npm install
+```
+
+## Config .env
