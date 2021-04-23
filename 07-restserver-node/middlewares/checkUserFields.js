@@ -15,7 +15,6 @@ const checkPostUser = [
     'password',
     'Password is mandatory and should be at least 6 characters'
   ).isLength({ min: 6 }),
-  // check('role', 'The role is not valid').isIn(['ADMIN_ROLE', 'USER_ROLE']),
   // validate to model role database
   check('role').custom(isRoleValid),
   validateFields,

@@ -38,4 +38,8 @@ const loginController = async (req = request, res = response) => {
   }
 };
 
+const googleSignin = (req = request, res = response) => {
+  //
+};
+
 module.exports = { loginController };
