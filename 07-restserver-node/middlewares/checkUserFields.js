@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 const { isRoleValid, emailExist, userIdExist } = require('../helpers/dbValidators');
 const { validateFields, validatePagination } = require('../middlewares/validateFields');
 const { validateJWT } = require('./validateJWT');
-const { isAdminRole } = require('./validateRole');
+const { isAdminRole, hasRole } = require('./validateRole');
 
 const checkGetUser = [validatePagination];
 
@@ -30,7 +30,8 @@ const checkPutUser = [
 
 const checkDeleteUser = [
   validateJWT,
-  isAdminRole,
+  // isAdminRole,
+  hasRole('ADMIN_ROLE', 'USER_ROLE', 'SALE_ROLE'),
   check('id', 'It is not a valid Mongo id').isMongoId(),
   check('id').custom(userIdExist),
   validateFields,
