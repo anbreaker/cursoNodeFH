@@ -21,6 +21,11 @@
     <script src="https://apis.google.com/js/platform.js" async defer></script>
 
     <script>
+      const url = window.location.hostname.includes('localhost')
+        ? 'http://localhost:3000/api/auth/google'
+        : 'https://curso-nodefh.herokuapp.com/api/auth/google';
+
+      // <DOC Google>
       function onSignIn(googleUser) {
         const profile = googleUser.getBasicProfile();
         console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
@@ -29,15 +34,27 @@
         console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 
         const id_token = googleUser.getAuthResponse().id_token;
-        console.log(id_token);
+        const data = { id_token };
+        // <DOC Google />
+
+        fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        })
+          .then((response) => response.json())
+          .then((data) => console.log('Server', data))
+          .catch(console.log);
       }
 
+      // <DOC Google>
       function signOut() {
         var auth2 = gapi.auth2.getAuthInstance();
         auth2.signOut().then(function () {
           console.log('User signed out.');
         });
       }
+      // <DOC Google />
     </script>
   </body>
 </html>
