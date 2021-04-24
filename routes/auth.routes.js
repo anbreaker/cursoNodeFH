@@ -1,10 +1,12 @@
 const { Router } = require('express');
-const { loginController } = require('../controllers/auth.controller');
+const { loginController, googleSignin } = require('../controllers/auth.controller');
 
-const { checkPostAuth } = require('../middlewares/checkAuthFields');
+const { checkPostAuth, checkPostGoogle } = require('../middlewares/checkAuthFields');
 
 const router = Router();
 
 router.post('/login', checkPostAuth, loginController);
+
+router.post('/google', checkPostGoogle, googleSignin);
 
 module.exports = router;
