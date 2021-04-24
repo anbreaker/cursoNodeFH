@@ -33,9 +33,7 @@ const loginController = async (req = request, res = response) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({
-      msg: 'Contact with admin.',
-    });
+    res.status(500).json({ msg: 'Contact with admin.' });
   }
 };
 
@@ -43,18 +41,35 @@ const googleSignin = async (req = request, res = response) => {
   const { id_token } = req.body;
 
   try {
-    const googleUser = await googleVerify(id_token);
+    const { email, name, img } = await googleVerify(id_token);
 
-    res.status(200).json({
-      msg: "It's ok.",
-      googleUser,
-    });
+    let user = await User.findOne({ email });
+
+    // Created new User
+    if (!user) {
+      const data = {
+        email,
+        name,
+        img,
+        password: ':P',
+        google: true,
+      };
+
+      user = new User(data);
+      await user.save();
+    }
+
+    // If user status on DB
+    if (!user.status) res.status(401).json({ msg: 'User blocked' });
+
+    // Generate JWT
+    const token = await generateJWT(user.id);
+
+    res.status(200).json({ user, token });
   } catch (error) {
     console.log(error);
 
-    res.status(400).json({
-      msg: "Google's Token is not valid.",
-    });
+    res.status(400).json({ msg: "Google's Token is not valid." });
   }
 };
 
