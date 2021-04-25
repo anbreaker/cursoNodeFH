@@ -2,10 +2,12 @@ const { response, request } = require('express');
 
 const Category = require('../models/category.model');
 
-const categoryGetController = async (req = request, res = response) => {
+// Get Categories - pagintion - Total - populate
+const categoriesGetController = async (req = request, res = response) => {
   res.status(200).json({ msg: 'Categories - Get' });
 };
 
+// Get Categories - populate {}
 const categoryGetIdController = async (req = request, res = response) => {
   res.status(200).json({ msg: 'Categories - Get by id' });
 };
@@ -39,18 +41,20 @@ const createCategoryController = async (req = request, res = response) => {
   }
 };
 
-const categoryPutController = async (req = request, res = response) => {
+// Updated Category
+const categoryUpdatedPutController = async (req = request, res = response) => {
   res.status(200).json({ msg: 'Categories - Put' });
 };
 
+// Delete by Status
 const categoryDeleteController = async (req = request, res = response) => {
   res.status(200).json({ msg: 'Categories - Delete' });
 };
 
 module.exports = {
-  categoryGetController,
+  categoriesGetController,
   categoryGetIdController,
+  categoryUpdatedPutController,
   createCategoryController,
-  categoryPutController,
   categoryDeleteController,
 };

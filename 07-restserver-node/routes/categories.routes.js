@@ -1,9 +1,9 @@
 const { Router } = require('express');
 const {
-  categoryGetController,
+  categoriesGetController,
   categoryGetIdController,
+  categoryUpdatedPutController,
   createCategoryController,
-  categoryPutController,
   categoryDeleteController,
 } = require('../controllers/categories.controller');
 
@@ -12,7 +12,7 @@ const { checkPostCategory } = require('../middlewares/checkCategoryFields');
 const router = Router();
 
 // Get all categories - public
-router.get('/', categoryGetController);
+router.get('/', categoriesGetController);
 
 // Get Category by Id - public
 router.get('/:id', categoryGetIdController);
@@ -21,7 +21,7 @@ router.get('/:id', categoryGetIdController);
 router.post('/', checkPostCategory, createCategoryController);
 
 // Updated Category - private with token
-router.put('/:id', categoryPutController);
+router.put('/:id', categoryUpdatedPutController);
 
 // Deleted Category - private only ADMIN_ROLE
 router.delete('/:id', categoryDeleteController);
