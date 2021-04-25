@@ -2,10 +2,12 @@ const { Router } = require('express');
 const {
   categoryGetController,
   categoryGetIdController,
-  categoryPostController,
+  createCategoryController,
   categoryPutController,
   categoryDeleteController,
 } = require('../controllers/categories.controller');
+
+const { checkPostCategory } = require('../middlewares/checkCategoryFields');
 
 const router = Router();
 
@@ -16,7 +18,7 @@ router.get('/', categoryGetController);
 router.get('/:id', categoryGetIdController);
 
 // Create Category - private with token
-router.post('/', categoryPostController);
+router.post('/', checkPostCategory, createCategoryController);
 
 // Updated Category - private with token
 router.put('/:id', categoryPutController);

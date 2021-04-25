@@ -1,7 +1,5 @@
 const { check } = require('express-validator');
 
-const { isRoleValid, emailExist, userIdExist } = require('../helpers/dbValidators');
-
 const { validateFields } = require('../middlewares/validateFields');
 
 const checkPostAuth = [
