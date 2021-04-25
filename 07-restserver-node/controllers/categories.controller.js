@@ -4,7 +4,15 @@ const Category = require('../models/category.model');
 
 // Get Categories - pagintion - Total - populate
 const categoriesGetController = async (req = request, res = response) => {
-  res.status(200).json({ msg: 'Categories - Get' });
+  const { limit = 3, from = 0 } = req.query;
+  const query = { status: true };
+
+  const [total, categories] = await Promise.all([
+    Category.countDocuments(query),
+    Category.find(query).limit(Number(limit)).skip(Number(from)),
+  ]);
+
+  res.status(200).json({ total, categories });
 };
 
 // Get Categories - populate {}
