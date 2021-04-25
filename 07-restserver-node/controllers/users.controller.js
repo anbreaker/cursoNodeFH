@@ -39,7 +39,7 @@ const usersPost = async (req, res = response) => {
 const usersPut = async (req, res = response) => {
   const { id } = req.params;
 
-  const { _id, password, google, email, ...restParams } = req.body;
+  const { uid, password, google, ...restParams } = req.body;
 
   // TODO validar contra base de datos
 
