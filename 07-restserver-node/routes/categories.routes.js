@@ -7,7 +7,10 @@ const {
   categoryDeleteController,
 } = require('../controllers/categories.controller');
 
-const { checkPostCategory } = require('../middlewares/checkCategoryFields');
+const {
+  checkPostCategory,
+  checkGetByIdCategory,
+} = require('../middlewares/checkCategoryFields');
 
 const router = Router();
 
@@ -15,7 +18,7 @@ const router = Router();
 router.get('/', categoriesGetController);
 
 // Get Category by Id - public
-router.get('/:id', categoryGetIdController);
+router.get('/:id', checkGetByIdCategory, categoryGetIdController);
 
 // Create Category - private with token
 router.post('/', checkPostCategory, createCategoryController);

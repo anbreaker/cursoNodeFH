@@ -21,4 +21,13 @@ const CategorySchema = Schema(
   { timestamps: true }
 );
 
+// To send response object without __version...
+// Need function to use this!!
+CategorySchema.methods.toJSON = function () {
+  const { __v, _id, ...category } = this.toObject();
+  category.uid = _id;
+
+  return category;
+};
+
 module.exports = model('Categoria', CategorySchema);

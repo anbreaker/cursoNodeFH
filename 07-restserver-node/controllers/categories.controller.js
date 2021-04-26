@@ -9,7 +9,7 @@ const categoriesGetController = async (req = request, res = response) => {
 
   const [total, categories] = await Promise.all([
     Category.countDocuments(query),
-    Category.find(query).limit(Number(limit)).skip(Number(from)),
+    Category.find(query).populate('user', 'name').limit(Number(limit)).skip(Number(from)),
   ]);
 
   res.status(200).json({ total, categories });
@@ -17,7 +17,19 @@ const categoriesGetController = async (req = request, res = response) => {
 
 // Get Categories - populate {}
 const categoryGetIdController = async (req = request, res = response) => {
-  res.status(200).json({ msg: 'Categories - Get by id' });
+  const { id } = req.params;
+
+  try {
+    console.log('aqui');
+
+    const getCategory = await Category.findById(id).populate('user', 'name');
+
+    res.status(200).json({ getCategory });
+  } catch (error) {
+    console.log(error);
+
+    res.status(400).json({ msg: `Not Valid ${error}` });
+  }
 };
 
 const createCategoryController = async (req = request, res = response) => {
@@ -56,7 +68,21 @@ const categoryUpdatedPutController = async (req = request, res = response) => {
 
 // Delete by Status
 const categoryDeleteController = async (req = request, res = response) => {
-  res.status(200).json({ msg: 'Categories - Delete' });
+  const { id } = req.params;
+
+  try {
+    const category = await Category.findByIdAndUpdate(
+      id,
+      { status: false },
+      { returnOriginal: false } // Para ver el dato actual en postman
+    );
+
+    res.json({ category });
+  } catch (error) {
+    console.log(error);
+
+    res.status(400).json({ msg: `An Error ${error}` });
+  }
 };
 
 module.exports = {

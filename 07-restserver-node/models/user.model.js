@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const userSchema = Schema(
+const UserSchema = Schema(
   {
     name: {
       type: String,
@@ -38,11 +38,11 @@ const userSchema = Schema(
 
 // To send response object without password or __version...
 // Need function to use this!!
-userSchema.methods.toJSON = function () {
+UserSchema.methods.toJSON = function () {
   const { __v, password, _id, ...user } = this.toObject();
   user.uid = _id;
 
   return user;
 };
 
-module.exports = model('User', userSchema);
+module.exports = model('User', UserSchema);

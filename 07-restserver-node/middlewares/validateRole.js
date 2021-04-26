@@ -19,7 +19,7 @@ const isAdminRole = (req = request, res = response, next) => {
   next();
 };
 
-// This function retunr other function
+// This function return other function
 const hasRole = (...roles) => {
   return (req = request, res = response, next) => {
     verifyTokenExist(req.user);
