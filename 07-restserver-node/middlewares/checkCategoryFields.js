@@ -20,6 +20,7 @@ const checkPostCategory = [
 const checkPutCategory = [
   validateJWT,
   check('name', 'Name is mandatory').not().isEmpty(),
+  // check('category', 'It is not a valid Mongo id').isMongoId(),
   check('id').custom(existCategoryById),
   validateFields,
 ];

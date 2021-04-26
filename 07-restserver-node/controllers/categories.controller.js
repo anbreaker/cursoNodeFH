@@ -34,6 +34,7 @@ const categoryGetIdController = async (req = request, res = response) => {
 
 const createCategoryController = async (req = request, res = response) => {
   const name = req.body.name.toUpperCase();
+
   try {
     const categoryDB = await Category.findOne({ name });
 
