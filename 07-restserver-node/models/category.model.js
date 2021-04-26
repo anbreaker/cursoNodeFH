@@ -30,4 +30,4 @@ CategorySchema.methods.toJSON = function () {
   return category;
 };
 
-module.exports = model('Categoria', CategorySchema);
+module.exports = model('Category', CategorySchema);
