@@ -63,7 +63,16 @@ const createCategoryController = async (req = request, res = response) => {
 
 // Updated Category
 const categoryUpdatedPutController = async (req = request, res = response) => {
-  res.status(200).json({ msg: 'Categories - Put' });
+  const { id } = req.params;
+  const { status, user, ...data } = req.body;
+
+  data.name = data.name.toUpperCase();
+
+  data.user = req.user._id;
+
+  const category = await Category.findByIdAndUpdate(id, data, { new: true });
+
+  res.status(200).json({ category });
 };
 
 // Delete by Status
@@ -71,13 +80,13 @@ const categoryDeleteController = async (req = request, res = response) => {
   const { id } = req.params;
 
   try {
-    const category = await Category.findByIdAndUpdate(
+    const deleteCategory = await Category.findByIdAndUpdate(
       id,
       { status: false },
       { returnOriginal: false } // Para ver el dato actual en postman
     );
 
-    res.json({ category });
+    res.json({ category: deleteCategory });
   } catch (error) {
     console.log(error);
 
