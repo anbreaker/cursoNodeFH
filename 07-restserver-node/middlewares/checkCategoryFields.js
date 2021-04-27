@@ -1,6 +1,6 @@
 const { check } = require('express-validator');
-const { existCategoryById } = require('../helpers/dbValidators');
 
+const { existCategoryById } = require('../helpers/dbValidators');
 const { validateFields } = require('../middlewares/validateFields');
 const { validateJWT } = require('./validateJWT');
 const { isAdminRole } = require('./validateRole');

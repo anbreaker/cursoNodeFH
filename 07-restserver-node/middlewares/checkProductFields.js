@@ -1,8 +1,14 @@
 const { check } = require('express-validator');
 
-const { validateJWT } = require('./validateJWT');
-const { validateFields } = require('./validateFields');
 const { existCategoryById } = require('../helpers/dbValidators');
+const { validateFields } = require('./validateFields');
+const { validateJWT } = require('./validateJWT');
+
+const checkGetByIdCategory = [
+  check('id', 'It is not a valid Mongo id').isMongoId(),
+  check('id').custom(existCategoryById),
+  validateFields,
+];
 
 const checkPostProduct = [
   validateJWT,
@@ -12,4 +18,11 @@ const checkPostProduct = [
   validateFields,
 ];
 
-module.exports = { checkPostProduct };
+const checkPutProduct = [
+  validateJWT,
+  check('name', 'Name is mandatory').not().isEmpty(),
+  // check('id').custom(existCategoryById),
+  validateFields,
+];
+
+module.exports = { checkGetByIdCategory, checkPostProduct, checkPutProduct };

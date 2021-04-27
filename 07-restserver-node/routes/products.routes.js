@@ -1,11 +1,29 @@
 const { Router } = require('express');
 
-const { createProductController } = require('../controllers/products.controller');
-const { checkPostProduct } = require('../middlewares/checkProductFields');
+const {
+  productsGetController,
+  productGetByIdController,
+  createProductController,
+  productUpdatedPutController,
+} = require('../controllers/products.controller');
+const {
+  checkGetByIdCategory,
+  checkPostProduct,
+  checkPutProduct,
+} = require('../middlewares/checkProductFields');
 
 const router = Router();
 
-// Create Category - private with token
+// Get all Products - public
+router.get('/', productsGetController);
+
+// Get Product by Id - public
+router.get('/:id', checkGetByIdCategory, productGetByIdController);
+
+// Create Product - private with token
 router.post('/', checkPostProduct, createProductController);
+
+// Updated Category - private with token
+router.put('/:id', checkPutProduct, productUpdatedPutController);
 
 module.exports = router;

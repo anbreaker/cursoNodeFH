@@ -20,8 +20,6 @@ const categoryGetIdController = async (req = request, res = response) => {
   const { id } = req.params;
 
   try {
-    console.log('aqui');
-
     const getCategory = await Category.findById(id).populate('user', 'name');
 
     res.status(200).json({ getCategory });
@@ -32,6 +30,7 @@ const categoryGetIdController = async (req = request, res = response) => {
   }
 };
 
+// Post Create Category
 const createCategoryController = async (req = request, res = response) => {
   const name = req.body.name.toUpperCase();
 
