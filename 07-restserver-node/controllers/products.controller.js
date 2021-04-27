@@ -77,9 +77,29 @@ const productUpdatedPutController = async (req = request, res = response) => {
   res.status(200).json({ product });
 };
 
+// Delete by Status
+const productDeleteController = async (req = request, res = response) => {
+  const { id } = req.params;
+
+  try {
+    const deleteProduct = await Product.findByIdAndUpdate(
+      id,
+      { status: false },
+      { new: true }
+    );
+
+    res.json({ product: deleteProduct });
+  } catch (error) {
+    console.log(error);
+
+    res.status(400).json({ msg: `An Error ${error}` });
+  }
+};
+
 module.exports = {
   productsGetController,
   productGetByIdController,
   createProductController,
   productUpdatedPutController,
+  productDeleteController,
 };
