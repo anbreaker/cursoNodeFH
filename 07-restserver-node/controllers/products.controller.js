@@ -6,13 +6,7 @@ const createProductController = async (req = request, res = response) => {
   const { status, user, ...restParams } = req.body;
 
   try {
-    // TODO Error!!
-    // MongoError: E11000 duplicate key error collection: cursoNodeFH.products index: name_1 dup key: { name: "BISCUIT" }
-    const productDB = await Product.findOne({ name: restParams.name }).exec();
-    const search = await Product.find({ name: restParams.name }).exec();
-
-    console.log({ productDB });
-    console.log({ search });
+    const productDB = await Product.findOne({ name: restParams.name });
 
     if (productDB)
       return res

@@ -4,6 +4,7 @@ const ProductSchema = Schema(
   {
     name: {
       type: String,
+      uppercase: true,
       required: [true, 'Product Name is mandatory.'],
       unique: [true, 'This Product, already exists.'],
     },
