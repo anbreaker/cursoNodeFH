@@ -24,13 +24,13 @@ const userIdExist = async (id) => {
 };
 
 const existCategoryById = async (id) => {
-  const idExist = await Category.findById(id);
+  const idExist = await Category.find({ id });
 
-  if (!idExist) throw new Error(`The id ${id} does not exist`);
+  if (!idExist) throw new Error(`The id ${id} does not exist.`);
 };
 
 const existProductById = async (id) => {
-  const existProduct = await Product.findById(id);
+  const existProduct = await Product.find({ id });
 
   if (!existProduct) throw new Error(`The id ${id} does not exist`);
 };

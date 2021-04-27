@@ -15,14 +15,14 @@ const checkPostProduct = [
   validateJWT,
   check('name', 'Product Name is mandatory.').not().isEmpty(),
   check('category', 'It is not a valid Mongo id').isMongoId(),
-  check('id').custom(existCategoryById),
+  check('category').custom(existCategoryById),
   validateFields,
 ];
 
 const checkPutProduct = [
   validateJWT,
   // check('name', 'Name is mandatory').not().isEmpty(), // Para que se actualice cualquier campo...
-  check('product', 'It is not a valid Mongo id').isMongoId(),
+  check('id', 'It is not a valid Mongo id').isMongoId(),
   check('id').custom(existProductById),
   validateFields,
 ];

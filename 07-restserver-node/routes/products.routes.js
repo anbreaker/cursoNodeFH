@@ -7,6 +7,7 @@ const {
   productUpdatedPutController,
   productDeleteController,
 } = require('../controllers/products.controller');
+
 const {
   checkGetByIdProduct,
   checkPostProduct,

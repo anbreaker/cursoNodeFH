@@ -9,7 +9,11 @@ const productsGetController = async (req = request, res = response) => {
 
   const [total, products] = await Promise.all([
     Product.countDocuments(query),
-    Product.find(query).populate('user', 'name').limit(Number(limit)).skip(Number(from)),
+    Product.find(query)
+      .populate('user', 'name')
+      .populate('category', 'name')
+      .limit(Number(limit))
+      .skip(Number(from)),
   ]);
 
   res.status(200).json({ total, products });
@@ -20,7 +24,9 @@ const productGetByIdController = async (req = request, res = response) => {
   const { id } = req.params;
 
   try {
-    const getProduct = await Product.findById(id).populate('user', 'name');
+    const getProduct = await Product.findById(id)
+      .populate('user', 'name')
+      .populate('category', 'name');
 
     res.status(200).json({ getProduct });
   } catch (error) {
@@ -62,15 +68,13 @@ const createProductController = async (req = request, res = response) => {
 };
 
 // Updated Product
-
 const productUpdatedPutController = async (req = request, res = response) => {
   const { id } = req.params;
   const { status, user, ...data } = req.body;
 
-  data.name = data.name.toUpperCase();
-  data.user = req.user._id;
+  if (data.name) data.name = data.name.toUpperCase();
 
-  console.log(data.user);
+  data.user = req.user._id;
 
   const product = await Product.findByIdAndUpdate(id, data, { new: true });
 
