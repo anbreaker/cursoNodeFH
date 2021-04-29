@@ -1,20 +1,6 @@
-const { response, request } = require('express');
-const { ObjectId } = require('mongoose').Types;
+const { searchUser, searchCategory, searchProducts } = require('../helpers/searchs');
 
-const User = require('../models/user.model');
-const Category = require('../models/category.model');
-const Product = require('../models/product.model');
-
-const collectionsAllowed = ['users', 'category', 'products', 'roles'];
-
-const searchUser = async (term = '', res = response) => {
-  const isMongoId = ObjectId.isValid(term); // true
-
-  if (isMongoId) {
-    const user = await User.findById(term);
-    res.json({ results: user ? [user] : [] });
-  }
-};
+const collectionsAllowed = ['users', 'categories', 'products', 'roles'];
 
 const search = async (req = request, res = response) => {
   const { collection, term } = req.params;
@@ -28,11 +14,11 @@ const search = async (req = request, res = response) => {
     case 'users':
       searchUser(term, res);
       break;
-    case 'category':
-      //
+    case 'categories':
+      searchCategory(term, res);
       break;
     case 'products':
-      //
+      searchProducts(term, res);
       break;
     default:
       res.status(500).json({ msg: 'Forget to search...' });
