@@ -10,7 +10,7 @@ const { dbConnection } = require('./mongoose.config');
 
 const initDatabase = async () => {
   try {
-    console.log('Emptying asteroids and users collection...');
+    console.log('Emptying Users and users collection...');
 
     // Delete all Users
     await User.deleteMany();
@@ -18,7 +18,7 @@ const initDatabase = async () => {
     console.log('Data successfully deleted!');
     console.log('Creating Users...');
 
-    // Read CSV file with asteroids
+    // Read CSV file with Users
     const databasesToInit = ['Users'];
 
     for (let i = 0; i < databasesToInit.length; i++) {
