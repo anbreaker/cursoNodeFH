@@ -26,7 +26,7 @@ const checkPutUser = [
   validateJWT,
   check('id', 'It is not a valid Mongo id').isMongoId(),
   check('id').custom(userIdExist),
-  // TODO Revisar isRoleValid
+  // Remember Create Collection Roles
   check('role').custom(isRoleValid),
   validateFields,
 ];
