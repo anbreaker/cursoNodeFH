@@ -5,7 +5,8 @@ const Product = require('../models/category.model');
 
 const isRoleValid = async (role = '') => {
   const existRole = await Role.findOne({ role });
-  if (!existRole) throw new Error(`The ${role} is not registered in the database.`);
+
+  if (!existRole) throw new Error(`The rol '${role}' is not registered in the database.`);
 };
 
 const emailExist = async (email) => {

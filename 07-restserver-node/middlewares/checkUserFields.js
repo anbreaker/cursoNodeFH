@@ -8,7 +8,9 @@ const { isAdminRole, hasRole } = require('./validateRole');
 const checkGetUser = [validatePagination];
 
 const checkPostUser = [
-  check('name', 'Name is mandatory').not().isEmpty(),
+  validateJWT,
+  hasRole('ADMIN_ROLE', 'SALE_ROLE'),
+  check('name', 'Name is mandatory.').not().isEmpty(),
   check('email', 'Email is not valid').isEmail(),
   check('email').custom(emailExist),
   check(
@@ -21,8 +23,10 @@ const checkPostUser = [
 ];
 
 const checkPutUser = [
+  validateJWT,
   check('id', 'It is not a valid Mongo id').isMongoId(),
   check('id').custom(userIdExist),
+  // TODO Revisar isRoleValid
   check('role').custom(isRoleValid),
   validateFields,
 ];
