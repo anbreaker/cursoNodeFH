@@ -7,11 +7,15 @@ const loadFiles = async (req = request, res = response) => {
   if (!req.files || Object.keys(req.files).length === 0 || !req.files.file)
     return res.status(400).send({ msg: 'No files were uploaded.' });
 
-  const validateExtension = ['png', 'jpg', 'jpeg', 'gif'];
+  try {
+    const validateExtension = ['png', 'jpg', 'jpeg', 'gif'];
+    const name = await uploadFile(req.files, validateExtension, 'images');
 
-  const name = await uploadFile(req.files, validateExtension);
-
-  res.json({ name });
+    res.json({ name });
+  } catch (msg) {
+    console.log(msg);
+    res.status(400).json({ msg });
+  }
 };
 
 module.exports = { loadFiles };
