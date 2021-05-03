@@ -18,4 +18,10 @@ const loadFiles = async (req = request, res = response) => {
   }
 };
 
-module.exports = { loadFiles };
+const updateFile = async (req = request, res = response) => {
+  const { collection, id } = req.params;
+
+  res.json({ collection, id });
+};
+
+module.exports = { loadFiles, updateFile };
