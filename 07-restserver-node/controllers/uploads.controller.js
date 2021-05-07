@@ -1,4 +1,6 @@
 const { response, request } = require('express');
+const path = require('path');
+const fs = require('fs');
 
 const { uploadFile } = require('../helpers/uploadFiles');
 const User = require('../models/user.model');
@@ -41,6 +43,18 @@ const updateFile = async (req = request, res = response) => {
 
     default:
       return res.status(500).json({ msg: 'Shit!, Forget to validate...' });
+  }
+
+  try {
+    if (model.img) {
+      // Delete previous image
+      const pathImg = path.join(__dirname, '../uploads', collection, model.img);
+
+      if (fs.existsSync(pathImg)) fs.unlinkSync(pathImg);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: 'Contact with admin.' });
   }
 
   const name = await await uploadFile(req.files, undefined, collection);
