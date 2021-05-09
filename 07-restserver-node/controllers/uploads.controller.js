@@ -6,6 +6,45 @@ const { uploadFile } = require('../helpers/uploadFiles');
 const User = require('../models/user.model');
 const Product = require('../models/product.model');
 
+const getFile = async (req = request, res = response) => {
+  const { collection, id } = req.params;
+
+  let model;
+
+  switch (collection) {
+    case 'users':
+      model = await User.findById(id);
+
+      if (!model)
+        return res.status(400).json({ msg: `There is not User with the '${id}'.` });
+      break;
+
+    case 'products':
+      model = await Product.findById(id);
+
+      if (!model)
+        return res.status(400).json({ msg: `There is not Product with the '${id}'.` });
+      break;
+
+    default:
+      return res.status(500).json({ msg: 'Shit!, Forget to validate...' });
+  }
+
+  try {
+    if (model.img) {
+      // Delete previous image
+      const pathImg = path.join(__dirname, '../uploads', collection, model.img);
+
+      if (fs.existsSync(pathImg)) return res.sendFile(pathImg);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: 'Contact with admin.' });
+  }
+
+  res.json({ msg: 'Without PlaceHolder...' });
+};
+
 const loadFiles = async (req = request, res = response) => {
   //name obj postman (file)
   // TODO crear middleware de esto
@@ -65,4 +104,4 @@ const updateFile = async (req = request, res = response) => {
   res.json({ model });
 };
 
-module.exports = { loadFiles, updateFile };
+module.exports = { getFile, loadFiles, updateFile };
