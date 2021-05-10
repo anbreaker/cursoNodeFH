@@ -135,15 +135,24 @@ const updateFileCloudinary = async (req = request, res = response) => {
   }
 
   try {
+    // TODO lograr buscar para carpetas
     if (model.img) {
-      // TODO Delete previous image Cloudinary
+      const nameArray = model.img.split('/');
+      const name = nameArray[nameArray.length - 1];
+      const [public_id] = name.split('.');
+
+      console.log(public_id);
+
+      cloudinary.uploader.destroy(public_id);
     }
+
     const { tempFilePath } = req.files.file;
-    const { secure_url } = await cloudinary.uploader.upload(tempFilePath, {
-      folder: 'cursoNodeFH',
-    });
+    const { secure_url } = await cloudinary.uploader.upload(tempFilePath);
+
     model.img = secure_url;
+
     await model.save();
+
     res.json({ model });
   } catch (error) {
     console.log(error);
