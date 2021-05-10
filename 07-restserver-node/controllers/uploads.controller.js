@@ -53,6 +53,8 @@ const getFile = async (req = request, res = response) => {
       // Delete previous image
       const pathImg = path.join(__dirname, '../uploads', collection, model.img);
 
+      //TODO GET cloudinary
+
       if (fs.existsSync(pathImg)) return res.sendFile(pathImg);
     }
   } catch (error) {
