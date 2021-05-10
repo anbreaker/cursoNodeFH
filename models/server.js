@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const fileUpload = require('express-fileupload');
 
 const { dbConnection } = require('../database/mongoose.config');
 
@@ -13,6 +14,7 @@ class Server {
     this.authRoutesPath = '/api/auth';
     this.usersRoutesPath = '/api/users';
     this.searchRoutesPath = '/api/search';
+    this.uploadsRoutesPath = '/api/uploads';
     this.productsRoutesPath = '/api/products';
     this.categoriesRoutesPath = '/api/categories';
 
@@ -46,6 +48,15 @@ class Server {
 
     // Directorio ficheros Estaticos
     this.app.use(express.static('public'));
+
+    // FileUplaad
+    this.app.use(
+      fileUpload({
+        useTempFiles: true,
+        tempFileDir: '/tmp/',
+        createParentPath: true, // To create Folder automatic
+      })
+    );
   }
 
   routes() {
@@ -53,6 +64,7 @@ class Server {
     this.app.use(this.authRoutesPath, require('../routes/auth.routes'));
     this.app.use(this.usersRoutesPath, require('../routes/users.routes'));
     this.app.use(this.searchRoutesPath, require('../routes/search.routes'));
+    this.app.use(this.uploadsRoutesPath, require('../routes/uploads.routes'));
     this.app.use(this.productsRoutesPath, require('../routes/products.routes'));
     this.app.use(this.categoriesRoutesPath, require('../routes/categories.routes'));
   }

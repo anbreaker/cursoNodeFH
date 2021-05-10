@@ -26,6 +26,7 @@ const searchUser = async (term = '', res = response) => {
 const searchCategory = async (term = '', res = response) => {
   const isMongoId = ObjectId.isValid(term);
 
+  // TODO
   console.log('aqui');
 
   if (isMongoId) {
