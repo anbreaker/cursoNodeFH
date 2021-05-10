@@ -1,6 +1,11 @@
 const { Router } = require('express');
 
-const { getFile, loadFiles, updateFile } = require('../controllers/uploads.controller');
+const {
+  getFile,
+  loadFiles,
+  // updateFile,
+  updateFileCloudinary,
+} = require('../controllers/uploads.controller');
 const {
   checkGetUpdateFile,
   checkPostUpdateFile,
@@ -13,6 +18,10 @@ router.get('/:collection/:id', checkGetUpdateFile, getFile);
 
 router.post('/', checkPostUpdateFile, loadFiles);
 
-router.put('/:collection/:id', checkPutUpdateFile, updateFile);
+// Example with img on server
+// router.put('/:collection/:id', checkPutUpdateFile, updateFile);
+
+// Imgaes on Cloudinary
+router.put('/:collection/:id', checkPutUpdateFile, updateFileCloudinary);
 
 module.exports = router;
