@@ -16,6 +16,10 @@ socketClient.on('disconnect', () => {
   btnCreate.disabled = true;
 });
 
+socketClient.on('last-ticket', (last) => {
+  lblNewTicket.innerText = `Ticket ${last}`;
+});
+
 btnCreate.addEventListener('click', () => {
   socketClient.emit('next-ticket', null, (ticket) => {
     lblNewTicket.innerText = ticket;
