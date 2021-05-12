@@ -1,10 +1,14 @@
+const TicketControl = require('../models/ticket-control');
+
+const ticketControl = new TicketControl();
+
 const socketController = (socket) => {
-  socket.on('send-sms', (payload, callback) => {
-    const id = 12345645;
+  socket.on('next-ticket', (payload, callback) => {
+    const next = ticketControl.nextTicket();
 
-    callback(id);
+    callback(next);
 
-    socket.broadcast.emit('send-sms', payload);
+    // TODO Notificar ticket pendiente
   });
 };
 
