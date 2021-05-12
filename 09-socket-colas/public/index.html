@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <!-- bootswatch -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/darkly/bootstrap.min.css"
+      integrity="sha384-nNK9n28pDUDDgIiIqZ/MiyO3F4/9vsMtReZK39klb/MtkZI3/LtjSjlmyVPS3KdN"
+      crossorigin="anonymous"
+    />
+
+    <title>Programa de Colas</title>
+  </head>
+
+  <body class="container">
+    <h1 class="mt-5">Programa de Colas</h1>
+
+    <div class="row">
+      <div class="col-6">
+        <a class="btn btn-primary" href="publico.html">Pantalla publica</a>
+        <a class="btn btn-secondary" href="nuevo-ticket.html">Crear Tickets</a>
+      </div>
+
+      <div class="col-6">
+        <form action="escritorio.html">
+          <input
+            name="escritorio"
+            type="text"
+            class="form-control"
+            placeholder="Escritorio"
+            autofocus
+            required
+          />
+
+          <br />
+          <button type="submit" class="btn btn-primary">Ingresar</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

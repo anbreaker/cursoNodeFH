@@ -1,0 +1,21 @@
+{
+  "name": "08-websockets-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "fuser -k 3000/tcp & nodemon app.js"
+  },
+  "keywords": [],
+  "author": "anbreaker",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^9.0.2",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "socket.io": "^4.1.0"
+  }
+}
