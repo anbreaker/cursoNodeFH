@@ -7,6 +7,10 @@ class Server {
     this.app = express();
     this.port = process.env.PORT;
 
+    //Config SocketIO
+    this.server = require('http').createServer(this.app);
+    this.io = require('socket.io')(this.server);
+
     // API users
     this.authRoutesPath = '/api/auth';
 
@@ -14,8 +18,10 @@ class Server {
     this.middlewares();
 
     // Rutas de la Aplicacion
-
     this.routes();
+
+    // Sockets Configuration
+    this.sockets();
   }
 
   middlewares() {
@@ -37,9 +43,19 @@ class Server {
     // this.app.use(this.authRoutesPath, require('../routes/auth.routes'));
   }
 
+  sockets() {
+    this.io.on('connection', (socket) => {
+      console.log('Client Logged in!', socket.id);
+
+      socket.on('disconnect', () => console.log('Client Disconnected', socket.id));
+    });
+  }
+
   listen() {
-    this.app.listen(this.port, () => {
-      console.log(`Example app listening at http://localhost:${this.port}`);
+    this.server.listen(this.port, () => {
+      // visit http://localhost:3000/socket.io/socket.io.js
+      // SocketIO run!
+      console.log(`Example SocketIO app listening at http://localhost:${this.port}`);
     });
   }
 }

@@ -19,8 +19,15 @@
     <div class="container mt-3">
       <h1>Socket Client</h1>
       <hr />
+
+      <p>
+        Server Status:
+        <span id="lblOnline" class="text-success">Online</span>
+        <span id="lblOffline" class="text-danger">Offline</span>
+      </p>
     </div>
 
+    <script src="./socket.io/socket.io.js"></script>
     <script src="./js/socket-client.js"></script>
   </body>
 </html>
