@@ -1,0 +1,16 @@
+name,email,password,img,role,status,google,
+  user01,user01@test.com,user01,url,USER_ROLE,true,false
+  user02,user02@test.com,user02,url,USER_ROLE,true,false
+  user03,user03@test.com,user03,url,USER_ROLE,true,false
+  user04,user04@test.com,user04,url,USER_ROLE,true,false
+  user05,user05@test.com,user05,url,USER_ROLE,true,false
+  user06,user06@test.com,user06,url,USER_ROLE,true,false
+  user07,user07@test.com,user07,url,USER_ROLE,true,false
+  user08,user08@test.com,user08,url,USER_ROLE,true,false
+  user09,user09@test.com,user09,url,USER_ROLE,true,false
+  user10,user10@test.com,user10,url,USER_ROLE,true,false
+  user11,user11@test.com,user11,url,USER_ROLE,true,false
+  user12,user12@test.com,user12,url,USER_ROLE,true,false
+  user13,user13@test.com,user13,url,USER_ROLE,true,false
+  user14,user14@test.com,user14,url,USER_ROLE,true,false
+  user15,user15@test.com,user15,url,USER_ROLE,true,false
