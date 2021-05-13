@@ -2,13 +2,19 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const fileUpload = require('express-fileupload');
+const { createServer } = require('http');
 
 const { dbConnection } = require('../database/mongoose.config');
+const { socketController } = require('../sockets/socketController');
 
 class Server {
   constructor() {
     this.app = express();
     this.port = process.env.PORT;
+
+    // Config socketIO
+    this.serverSocketIO = createServer(this.app);
+    this.io = require('socket.io')(this.serverSocketIO);
 
     // API users
     this.authRoutesPath = '/api/auth';
@@ -44,7 +50,7 @@ class Server {
     this.app.use(express.urlencoded({ extended: true }));
 
     // Https views
-    this.app.use(morgan('dev'));
+    // this.app.use(morgan('dev'));
 
     // Directorio ficheros Estaticos
     this.app.use(express.static('public'));
@@ -57,6 +63,9 @@ class Server {
         createParentPath: true, // To create Folder automatic
       })
     );
+
+    // Sockets
+    this.sockets();
   }
 
   routes() {
@@ -69,8 +78,14 @@ class Server {
     this.app.use(this.categoriesRoutesPath, require('../routes/categories.routes'));
   }
 
+  sockets() {
+    this.io.on('connection', socketController);
+  }
+
   listen() {
-    this.app.listen(this.port, () => {
+    // Server listen --> express
+    // Server listen sockectIO --> serverSocketIO
+    this.serverSocketIO.listen(this.port, () => {
       console.log(`Example app listening at http://localhost:${this.port}`);
     });
   }
