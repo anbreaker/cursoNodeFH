@@ -1,9 +1,19 @@
 const { Router } = require('express');
-const { loginController, googleSignin } = require('../controllers/auth.controller');
+const {
+  loginController,
+  googleSignin,
+  renewToken,
+} = require('../controllers/auth.controller');
 
-const { checkPostAuth, checkPostGoogle } = require('../middlewares/checkAuthFields');
+const {
+  checkGetAuth,
+  checkPostAuth,
+  checkPostGoogle,
+} = require('../middlewares/checkAuthFields');
 
 const router = Router();
+
+router.get('/', checkGetAuth, renewToken);
 
 router.post('/login', checkPostAuth, loginController);
 

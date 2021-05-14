@@ -1,13 +1,15 @@
 const { check } = require('express-validator');
 
 const { validateFields } = require('../middlewares/validateFields');
+const { validateJWT } = require('./validateJWT');
+
+const checkGetAuth = [validateJWT];
 
 const checkPostAuth = [
   check('email', 'The email is mandatory').isEmail(),
-  check(
-    'password',
-    'Password is mandatory and should be at least 6 characters'
-  ).isLength({ min: 6 }),
+  check('password', 'Password is mandatory and should be at least 6 characters').isLength(
+    { min: 6 }
+  ),
   validateFields,
 ];
 
@@ -16,4 +18,4 @@ const checkPostGoogle = [
   validateFields,
 ];
 
-module.exports = { checkPostAuth, checkPostGoogle };
+module.exports = { checkGetAuth, checkPostAuth, checkPostGoogle };
