@@ -14,15 +14,29 @@ const validateJWT = async () => {
     throw new Error('Token Not Valid on LocalStorage');
   }
 
-  const response = await fetch(url, {
-    headers: { bearer: token },
+  try {
+    const response = await fetch(url, {
+      headers: { bearer: token },
+    });
+
+    const { user: userDB, token: tokenDB } = await response.json();
+    localStorage.setItem('token', tokenDB);
+    user = userDB;
+    document.title = user.name;
+
+    await connectSocket();
+  } catch (error) {
+    window.location = 'index.html';
+    console.log(error);
+  }
+};
+
+const connectSocket = async () => {
+  const socket = io({
+    extraHeaders: {
+      bearer: localStorage.getItem('token'),
+    },
   });
-
-  const { user: userDB, token: tokenDB } = await response.json();
-  console.log(userDB, tokenDB);
-
-  localStorage.setItem('token', tokenDB);
-  user = userDB;
 };
 
 const main = async () => {
@@ -30,5 +44,3 @@ const main = async () => {
 };
 
 main();
-
-// const socket = io();

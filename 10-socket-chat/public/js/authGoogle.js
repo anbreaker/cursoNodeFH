@@ -23,6 +23,9 @@ myForm.addEventListener('submit', (event) => {
       if (msg) return console.error(msg);
 
       localStorage.setItem('token', token);
+
+      // Redirect
+      window.location = 'chat.html';
     })
     .catch((error) => console.log(error));
 });
@@ -48,6 +51,9 @@ function onSignIn(googleUser) {
     .then((data) => {
       const { token } = data;
       localStorage.setItem('token', token);
+
+      // Redirect
+      // window.location = 'chat.html';
     })
     .catch(console.log);
 }
