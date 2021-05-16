@@ -16,6 +16,38 @@
     <title>---chat---</title>
   </head>
   <body class="container">
+    <div class="row mt-5">
+      <div class="col-sm-6">
+        <h3>Send SmS</h3>
+        <hr />
+        <input
+          type="text"
+          id="txtUid"
+          class="form-control mb-2"
+          placeholder="uid"
+          autocomplete="off"
+        />
+        <input
+          type="text"
+          id="txtSms"
+          class="form-control mb-2"
+          placeholder="Your Messages"
+          autocomplete="off"
+        />
+
+        <h3 class="mt-3">Active Users</h3>
+        <hr />
+        <ul id="ulUsers"></ul>
+      </div>
+      <div class="col-sm-6">
+        <h3>Chat</h3>
+        <hr />
+        <ul id="sms"></ul>
+      </div>
+    </div>
+
+    <button id="btnExit" class="btn btn-outline-danger">Logout</button>
+
     <script src="./socket.io/socket.io.js"></script>
     <script src="./js/chat.js"></script>
   </body>
