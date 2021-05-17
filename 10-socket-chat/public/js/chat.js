@@ -50,8 +50,8 @@ const connectSocket = async () => {
 
   socket.on('disconnect', () => console.log('Sockets Offline'));
 
-  socket.on('recived-sms', () => {
-    // TODO:
+  socket.on('recived-sms', (payload) => {
+    console.log(payload);
   });
 
   socket.on('active-users', viewUsersOnWeb);
@@ -64,8 +64,6 @@ const connectSocket = async () => {
 };
 
 const viewUsersOnWeb = (users = []) => {
-  console.log('se llama');
-
   let usersHtml = '';
 
   users.forEach((user) => {
@@ -83,6 +81,21 @@ const viewUsersOnWeb = (users = []) => {
 
   ulUsers.innerHTML = usersHtml;
 };
+
+txtSms.addEventListener('keyup', (event) => {
+  const { keyCode } = event;
+
+  const sms = txtSms.value;
+  const uid = txtUid.value;
+
+  if (keyCode !== 13) return;
+
+  if (sms.length === 0) return;
+
+  socket.emit('send-sms', { sms, uid });
+
+  txtSms.value = '';
+});
 
 const main = async () => {
   await validateJWT();
