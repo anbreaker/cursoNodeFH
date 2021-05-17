@@ -1,3 +1,10 @@
-export const nombre = 'anbreaker';
+import dotenv from 'dotenv';
 
-console.log(nombre);
+import { Server } from './models/server';
+
+// Config dotenv
+dotenv.config();
+
+const server = new Server();
+
+server.listen();
