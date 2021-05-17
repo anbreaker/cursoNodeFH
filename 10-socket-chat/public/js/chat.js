@@ -54,15 +54,34 @@ const connectSocket = async () => {
     // TODO:
   });
 
-  socket.on('active-users', (payload) => {
-    console.log(payload);
-  });
+  socket.on('active-users', viewUsersOnWeb);
 
   socket.on('private-sms', () => {
     // TODO:
   });
 
   //
+};
+
+const viewUsersOnWeb = (users = []) => {
+  console.log('se llama');
+
+  let usersHtml = '';
+
+  users.forEach((user) => {
+    const { name, uid } = user;
+    usersHtml += `
+    <li>
+      <p>
+        <h5 class="text-success">${name}</h5>
+        <span class="fs-6 text-muted">${uid}</span> 
+        Vera ago
+      </p> 
+    </li> 
+    `;
+  });
+
+  ulUsers.innerHTML = usersHtml;
 };
 
 const main = async () => {
