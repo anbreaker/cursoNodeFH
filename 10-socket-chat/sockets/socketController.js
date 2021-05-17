@@ -20,6 +20,9 @@ const socketController = async (socket = new Socket(), io) => {
   io.emit('active-users', chatSms.usersArray);
   socket.emit('recived-sms', chatSms.last10);
 
+  // Connect private Chat
+  socket.join(user.id); //Global, socket.id, user.id
+
   // Delete user Offline
   socket.on('disconnect', () => {
     chatSms.disconnectUser(user.id);
@@ -27,9 +30,14 @@ const socketController = async (socket = new Socket(), io) => {
   });
 
   socket.on('send-sms', ({ uid, sms }) => {
-    chatSms.sendSms(user.id, user.name, sms);
+    if (uid) {
+      // Private sms
+      socket.to(uid).emit('private-sms', { de: user.name, sms });
+    } else {
+      chatSms.sendSms(user.id, user.name, sms);
 
-    io.emit('recived-sms', chatSms.last10);
+      io.emit('recived-sms', chatSms.last10);
+    }
   });
 };
 

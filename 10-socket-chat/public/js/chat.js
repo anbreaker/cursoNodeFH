@@ -54,8 +54,9 @@ const connectSocket = async () => {
 
   socket.on('active-users', viewUsersOnWeb);
 
-  socket.on('private-sms', () => {
+  socket.on('private-sms', (payload) => {
     // TODO:
+    console.log('Mensaje Privado', payload);
   });
 
   //
