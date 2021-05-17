@@ -10,7 +10,7 @@ const btnExit = document.querySelector('#btnExit');
 const txtSms = document.querySelector('#txtSms');
 const txtUid = document.querySelector('#txtUid');
 const ulUsers = document.querySelector('#ulUsers');
-const sms = document.querySelector('#sms');
+const ulChatSms = document.querySelector('#ulChatSms');
 
 // Validate token LocalStorage
 const validateJWT = async () => {
@@ -50,9 +50,7 @@ const connectSocket = async () => {
 
   socket.on('disconnect', () => console.log('Sockets Offline'));
 
-  socket.on('recived-sms', (payload) => {
-    console.log(payload);
-  });
+  socket.on('recived-sms', viewChatsOnWeb);
 
   socket.on('active-users', viewUsersOnWeb);
 
@@ -72,14 +70,31 @@ const viewUsersOnWeb = (users = []) => {
     <li>
       <p>
         <h5 class="text-success">${name}</h5>
-        <span class="fs-6 text-muted">${uid}</span> 
-        Vera ago
+        <span class="fs-6 text-muted">${uid}</span>         
       </p> 
     </li> 
     `;
   });
 
   ulUsers.innerHTML = usersHtml;
+};
+
+const viewChatsOnWeb = (sms = []) => {
+  let chatsHtml = '';
+
+  sms.forEach((item) => {
+    const { name, sms } = item;
+    chatsHtml += `
+    <li>
+      <p>
+        <span class="text-primary">${name}:</span>
+        <span>${sms}</span>
+      </p> 
+    </li> 
+    `;
+  });
+
+  ulChatSms.innerHTML = chatsHtml;
 };
 
 txtSms.addEventListener('keyup', (event) => {

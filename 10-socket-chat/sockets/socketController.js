@@ -18,6 +18,7 @@ const socketController = async (socket = new Socket(), io) => {
   // Add user connect
   chatSms.connectUser(user);
   io.emit('active-users', chatSms.usersArray);
+  socket.emit('recived-sms', chatSms.last10);
 
   // Delete user Offline
   socket.on('disconnect', () => {
