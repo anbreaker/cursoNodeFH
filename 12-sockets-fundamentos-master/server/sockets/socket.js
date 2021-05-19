@@ -7,16 +7,20 @@ const users = new Users();
 
 io.on('connection', (client) => {
   client.on('entrarChat', (data, callback) => {
-    if (!data.name) {
+    if (!data.name || !data.sala) {
       return callback({
         error: true,
         mensaje: 'El nombre/sala es necesario',
       });
     }
 
-    const persons = users.addPerson(client.id, data.name);
+    client.join(data.sala);
 
-    client.broadcast.emit('listaPersona', users.getPersons());
+    const persons = users.addPerson(client.id, data.name, data.sala);
+
+    client.broadcast
+      .to(data.sala)
+      .emit('listaPersona', users.getPersonsPerRoom(data.sala));
 
     callback(persons);
   });
@@ -26,18 +30,20 @@ io.on('connection', (client) => {
 
     const mensaje = crearMensaje(persona.name, data.mensaje);
 
-    client.broadcast.emit('crearMensaje', mensaje);
+    client.broadcast.to(persona.sala).emit('crearMensaje', mensaje);
   });
 
   client.on('disconnect', () => {
     const deletePerson = users.deletePerson(client.id);
 
-    client.broadcast.emit('crearMensaje', {
+    client.broadcast.to(deletePerson.sala).emit('crearMensaje', {
       usuario: 'Admin',
       mensaje: crearMensaje('Admin', `${deletePerson.name} Abandono el chat`),
     });
 
-    client.broadcast.emit('listaPersona', users.getPersons());
+    client.broadcast
+      .to(deletePerson.sala)
+      .emit('listaPersona', users.getPersonsPerRoom(deletePerson.sala));
   });
 
   // Mensajes Privados
