@@ -1,4 +1,5 @@
 import express, { Application } from 'express';
+import cors from 'cors';
 
 import userRoutes from '../routes/user.routes';
 
@@ -13,8 +14,24 @@ export class Server {
     this.app = express();
     this.port = process.env.PORT || '3000';
 
-    // Routes
+    // Middlewares
+    this.middlewares();
+
+    // Routes (Remember! this function last on constructor XD)
     this.routes();
+  }
+
+  // TODO: Connect DataBase
+
+  middlewares() {
+    // Cors
+    this.app.use(cors());
+
+    // Parseo Body
+    this.app.use(express.json());
+
+    // Public directory
+    this.app.use(express.static('public'));
   }
 
   routes() {
