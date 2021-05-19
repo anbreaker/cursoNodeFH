@@ -1,5 +1,8 @@
 import { Request, Response } from 'express';
+
 import User from '../models/user';
+
+// TODO: Completar con middlewares protecion etc...
 
 export const getUsers = async (req: Request, res: Response) => {
   const users = await User.findAll();
@@ -19,24 +22,48 @@ export const getUser = async (req: Request, res: Response) => {
     });
 };
 
-export const postUser = (req: Request, res: Response) => {
+export const postUser = async (req: Request, res: Response) => {
   const { body } = req;
 
-  res.json({
-    msg: 'postUser',
-    body,
-  });
+  try {
+    const existEmail = await User.findOne({
+      where: { email: body.email },
+    });
+
+    if (existEmail)
+      return res
+        .status(400)
+        .json({ msg: `The user with email ${body.email}, alredy exist. ` });
+
+    const user = await User.create(body);
+
+    res.json({ user });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({ msg: 'Talk with Admin' });
+  }
 };
 
-export const putUser = (req: Request, res: Response) => {
+export const putUser = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { body } = req;
 
-  res.json({
-    msg: 'putUser',
-    body,
-    id,
-  });
+  try {
+    const user = await User.findByPk(id);
+
+    if (!user) return res.status(404).json({ msg: `The user with ${id} does not exist` });
+
+    // TODO: vigilar el email... como en el post
+
+    await user.update(body);
+
+    res.json({ user });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({ msg: 'Talk with Admin' });
+  }
 };
 
 export const deleteUser = (req: Request, res: Response) => {
