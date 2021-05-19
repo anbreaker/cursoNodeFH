@@ -1,6 +1,7 @@
 const { io } = require('../server');
 
 const { Users } = require('../classes/users');
+const { crearMensaje } = require('../utils/utils');
 
 const users = new Users();
 
@@ -15,18 +16,36 @@ io.on('connection', (client) => {
 
     const persons = users.addPerson(client.id, data.name);
 
+    client.broadcast.emit('listaPersona', users.getPersons());
+
     callback(persons);
   });
 
-  client.on('disconnect', () => {
-    const ver = users.getPerson(client.id);
-    const deletePerson = users.deletePerson(client.id);
+  client.on('crearMensaje', (data) => {
+    const persona = users.getPerson(client.id);
 
-    console.log({ ver });
+    const mensaje = crearMensaje(persona.name, data.mensaje);
+
+    client.broadcast.emit('crearMensaje', mensaje);
+  });
+
+  client.on('disconnect', () => {
+    const deletePerson = users.deletePerson(client.id);
 
     client.broadcast.emit('crearMensaje', {
       usuario: 'Admin',
-      mensaje: `${deletePerson.name} Abandono el chat`,
+      mensaje: crearMensaje('Admin', `${deletePerson.name} Abandono el chat`),
     });
+
+    client.broadcast.emit('listaPersona', users.getPersons());
+  });
+
+  // Mensajes Privados
+  client.on('mensajePrivado', (data) => {
+    const persona = users.getPerson(client.id);
+
+    client.broadcast
+      .to(data.para)
+      .emit('mensajePrivado', crearMensaje(persona.name, data.mensaje));
   });
 });

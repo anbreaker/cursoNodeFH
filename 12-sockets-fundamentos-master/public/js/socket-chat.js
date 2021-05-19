@@ -25,18 +25,28 @@ socket.on('disconnect', function () {
 });
 
 // Enviar información
-socket.emit(
-  'enviarMensaje',
-  {
-    usuario: 'anbreaker',
-    mensaje: 'Hola Mundo',
-  },
-  function (resp) {
-    console.log('respuesta server: ', resp);
-  }
-);
+// socket.emit(
+//   'crearMensaje',
+//   {
+//     usuario: 'anbreaker',
+//     mensaje: 'Hola Mundo',
+//   },
+//   function (resp) {
+//     console.log('respuesta server: ', resp);
+//   }
+// );
 
 // Escuchar información
 socket.on('crearMensaje', (mensaje) => {
-  console.log('Servidor:', mensaje, '<----');
+  console.log('Servidor:', mensaje);
+});
+
+// Escuchar cambios de usuarios
+socket.on('listaPersona', (personas) => {
+  console.log(personas);
+});
+
+// Mensaje Privado
+socket.on('mensajePrivado', (mensaje) => {
+  console.log({ 'Mensaje Privado': mensaje });
 });
