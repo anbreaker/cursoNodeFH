@@ -24,8 +24,7 @@ class Server {
     // Middlewares
     this.middlewares();
 
-    // Rutas de la Aplicacion
-
+    // Application Paths
     this.routes();
   }
 
@@ -46,10 +45,10 @@ class Server {
     // Https views
     this.app.use(morgan('dev'));
 
-    // Directorio ficheros Estaticos
+    // Directory Static files
     this.app.use(express.static('public'));
 
-    // FileUplaad
+    // FileUpload Cloudinary
     this.app.use(
       fileUpload({
         useTempFiles: true,
